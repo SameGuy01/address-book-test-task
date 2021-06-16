@@ -37,6 +37,13 @@ class ContactResourceImpl(private val contactService: ContactServiceImpl) : Cont
         return "main"
     }
 
+    @GetMapping("/report")
+    fun showReport(model: Model):String{
+        val obj = findAll().body
+        model.addAttribute("contacts",obj)
+        return "contacts-report"
+    }
+
     override fun findAll(): ResponseEntity<List<ContactResponse>> {
         return ResponseEntity.ok(this.contactService.findAll())
     }
