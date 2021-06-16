@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 class ContactServiceImpl(private val contactDao: ContactDao,
                          private val addContactTransform: AddContactTransform) : ContactService {
+
     override fun findById(id: Long): ContactResponse? = this.findContactById(id).toContactResponse()
 
     override fun findAll(): List<ContactResponse> {
@@ -25,11 +26,10 @@ class ContactServiceImpl(private val contactDao: ContactDao,
         return this.saveOrUpdate(addContactTransform.transform(addContactRequest))
     }
 
-    override fun update(updatePersonRequest: UpdateContactRequest): ContactResponse {
-        val contact = this.findContactById(updatePersonRequest.id) ?: throw IllegalStateException("${updatePersonRequest.id} not found")
+    override fun update(id:Long,updatePersonRequest: UpdateContactRequest): ContactResponse {
+        val contact = this.findContactById(id) ?: throw IllegalStateException("$id not found")
 
         return this.saveOrUpdate(contact.apply {
-            this.comment = updatePersonRequest.comment
             this.email = updatePersonRequest.email
             this.locality = updatePersonRequest.locality
             this.name = updatePersonRequest.name

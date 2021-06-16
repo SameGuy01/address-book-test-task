@@ -5,12 +5,24 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<table>
+<a th:href="@{/api/v1/contacts}">Add contact</a> |
+<a th:href="@{/api/v1/contacts}">Show all</a>
+<table border="1" width="50%" cellspacing="0" cellpadding="1" >
+    <tr>
+        <td>Name</td>
+        <td>Phone</td>
+        <td>Email</td>
+        <td>Region</td>
+        <td>Locality</td>
+    </tr>
     <tr th:each="var : ${contacts}">
-        <td th:text="'Name: '+ ${var.name}+',  '"> </td>
-        <td th:text="'Phone: '+${var.phone}"></td>
-        <td><a th:href="@{/api/v1/contacts/{id}(id=${var.id})}">view</a></td>
-        <td><a th:href="@{/api/v1/contacts/delete/{id}(id=${var.id})}">delete</a></td>
+        <td th:text="${var.name}"> </td>
+        <td th:text="${var.phone}"></td>
+        <td th:text="${var.email}"></td>
+        <td th:text="${var.region}"></td>
+        <td th:text="${var.locality}"></td>
+        <td><a th:href="@{/api/v1/contacts/{id}(id=${var.id})}">Edit</a></td>
+        <td><a th:href="@{/api/v1/contacts/delete/{id}(id=${var.id})}">Delete</a></td>
     </tr>
 </table>
 </body>

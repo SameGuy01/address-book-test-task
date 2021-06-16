@@ -7,6 +7,10 @@ fun Contact?.toContactResponse(): ContactResponse {
     return ContactResponse(
         id=this?.id ?: 1L,
         name = "${this?.name}",
-        phone = this?.phone!!
+        phone = this?.phone!!,
+        email = this.email,
+        region = this.region,
+        locality = this.locality!!,
+        photo = this.photo!!
     )
 }

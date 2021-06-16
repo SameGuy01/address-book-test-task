@@ -5,13 +5,25 @@
     <title></title>
 </head>
 <body>
-<form action="#" th:action="@{/api/v1/contacts/{id}(id=${contact.id})}" th:object="${contact}" method="post">
+<form action="#" th:action="@{/api/v1/contacts/edit/{id}(id=${contact.id})}" th:object="${contact}" method="post">
   <label for="name">Name</label>
   <input type="text" th:field="*{name}" id="name" placeholder="Name">
   <br>
-  <label for="email">Phone</label>
-  <input type="text" th:field="*{phone}" id="email" placeholder="Email">
-
+  <label for="phone">Phone</label>
+  <input type="text" th:field="*{phone}" id="phone" placeholder="Phone">
+  <br>
+    <label for="email">Phone</label>
+    <input type="text" th:field="*{email}" id="email" placeholder="Email">
+  <br>
+    <label for="region">Phone</label>
+    <input type="text" th:field="*{region}" id="region" placeholder="Region">
+  <br>
+    <label for="locality">Phone</label>
+    <input type="text" th:field="*{locality}" id="locality" placeholder="Locality">
+  <br>
+  <label for="photo">Phone</label>
+  <input type="text" th:field="*{photo}" id="photo" placeholder="Photo">
+  <br>
   <input type="submit" value="Update Contact">
 </form>
 </body>

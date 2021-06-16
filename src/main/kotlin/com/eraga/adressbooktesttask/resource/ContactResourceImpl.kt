@@ -24,7 +24,7 @@ class ContactResourceImpl(private val contactService: ContactServiceImpl) : Cont
         return "edit"
     }
 
-    override fun findById(@PathVariable id: Long): ResponseEntity<ContactResponse?> {
+    override fun findById(id: Long): ResponseEntity<ContactResponse?> {
         val contactResponse: ContactResponse? = this.contactService.findById(id)
         return ResponseEntity.ok().body(contactResponse)
     }
@@ -48,9 +48,13 @@ class ContactResourceImpl(private val contactService: ContactServiceImpl) : Cont
                 .body(contactResponse)
     }
 
-    @PutMapping
-    override fun update(@RequestBody updatePersonRequest: UpdateContactRequest): ResponseEntity<ContactResponse> {
-        return ResponseEntity.ok(this.contactService.update(updatePersonRequest))
+    @PostMapping("/edit/{id}")
+    fun updateContact(@PathVariable id:Long,@ModelAttribute("contactRequest") contactRequest: UpdateContactRequest):String{
+        update(id,contactRequest)
+        return "redirect:/api/v1/contacts"
+    }
+    override fun update(id:Long,updatePersonRequest: UpdateContactRequest): ResponseEntity<ContactResponse> {
+        return ResponseEntity.ok(this.contactService.update(id,updatePersonRequest))
     }
 
     @GetMapping("/delete/{id}")

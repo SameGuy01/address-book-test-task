@@ -12,6 +12,6 @@ interface ContactResource {
     fun findById(id:Long): ResponseEntity<ContactResponse?>
     fun findAll(): ResponseEntity<List<ContactResponse>>
     fun save(addContactRequest: AddContactRequest): ResponseEntity<ContactResponse>
-    fun update(updatePersonRequest: UpdateContactRequest): ResponseEntity<ContactResponse>
+    fun update(id:Long,updatePersonRequest: UpdateContactRequest): ResponseEntity<ContactResponse>
     fun deleteById(id:Long) :ResponseEntity<ContactResponse>
 }

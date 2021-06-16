@@ -11,6 +11,6 @@ interface ContactService {
     fun findById(id:Long): ContactResponse?
     fun findAll(): List<ContactResponse>
     fun save(addPersonRequest: AddContactRequest): ContactResponse
-    fun update(updatePersonRequest: UpdateContactRequest): ContactResponse
+    fun update(id:Long,updatePersonRequest: UpdateContactRequest): ContactResponse
     fun deleteById(id:Long)
 }
