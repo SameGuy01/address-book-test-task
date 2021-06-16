@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+<form action="#" th:action="@{/api/v1/contacts/save}" th:object="${contact}" method="post">
+
+    Name: <input type="text" th:field="*{name}">
+    <br>
+    Phone: <input type="text" th:field="*{phone}" >
+    <br>
+    Email: <input type="text" th:field="*{email}" >
+    <br>
+
+    Region: <input type="text" th:field="*{region}" >
+    <br>
+
+    Locality: <input type="text" th:field="*{locality}" >
+    <br>
+
+    Photo: <input type="text" th:field="*{photo}" >
+    <br>
+    Comment: <input type="text" th:field="*{comment}" >
+    <input type="submit" value="Update Contact">
+  </form>
+</body>
+</html>

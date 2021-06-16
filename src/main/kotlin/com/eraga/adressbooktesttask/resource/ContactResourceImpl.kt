@@ -1,5 +1,6 @@
 package com.eraga.adressbooktesttask.resource
 
+import com.eraga.adressbooktesttask.domain.Contact
 import com.eraga.adressbooktesttask.dto.AddContactRequest
 import com.eraga.adressbooktesttask.dto.ContactResponse
 import com.eraga.adressbooktesttask.dto.UpdateContactRequest
@@ -40,7 +41,18 @@ class ContactResourceImpl(private val contactService: ContactServiceImpl) : Cont
         return ResponseEntity.ok(this.contactService.findAll())
     }
 
-    @PostMapping
+    @PostMapping("/save")
+    fun saveContact(@ModelAttribute("contact") addContactRequest: AddContactRequest):String{
+        save(addContactRequest)
+        return "redirect:/api/v1/contacts"
+    }
+
+    @GetMapping("/save")
+    fun getSavePage(model: Model):String{
+        model.addAttribute("contact", Contact());
+        return "add-contact"
+    }
+
     override fun save(@RequestBody addContactRequest: AddContactRequest): ResponseEntity<ContactResponse> {
         val contactResponse = this.contactService.save(addContactRequest)
         return ResponseEntity
@@ -49,10 +61,11 @@ class ContactResourceImpl(private val contactService: ContactServiceImpl) : Cont
     }
 
     @PostMapping("/edit/{id}")
-    fun updateContact(@PathVariable id:Long,@ModelAttribute("contactRequest") contactRequest: UpdateContactRequest):String{
+    fun updateContact(@PathVariable id:Long,contactRequest: UpdateContactRequest):String{
         update(id,contactRequest)
         return "redirect:/api/v1/contacts"
     }
+
     override fun update(id:Long,updatePersonRequest: UpdateContactRequest): ResponseEntity<ContactResponse> {
         return ResponseEntity.ok(this.contactService.update(id,updatePersonRequest))
     }

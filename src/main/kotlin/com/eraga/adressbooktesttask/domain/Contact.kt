@@ -20,10 +20,10 @@ data class Contact(
     var photo:String?=null,
 
     @Column(table="contact_information")
-    var email:String,
+    var email:String="",
 
     @Column(table="contact_information")
-    var phone:Int,
+    var phone:Int=0,
 
     var comment:String?=null) {
 
