@@ -1,1 +1,1 @@
-Required URI to work with the service: /api/v1/contacts
+**Required URI to work with the service**: /api/v1/contacts
