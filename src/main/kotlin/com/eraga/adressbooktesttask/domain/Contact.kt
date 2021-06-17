@@ -23,7 +23,7 @@ data class Contact(
     var email:String="",
 
     @Column(table="contact_information")
-    var phone:Int=0,
+    var phone:String="",
 
     var comment:String?=null) {
 
