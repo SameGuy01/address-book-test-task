@@ -5,26 +5,31 @@
   <title></title>
 </head>
 <body>
-<ul th:each="contact : ${contacts}">
-    <ul th:each="region : ${contact.region}">
-      <li th:text="${region}"></li>
+<ul th:each="contactI : ${contacts}">
+    <ul th:each="contactJ: ${contacts}">
+        <div th:if="${contactI.region == contactJ.region}">
+        <ul th:each="region : ${contactI.region}">
+          <li th:text="${region}"></li>
 
-      <ul th:each="locality : ${contact.locality}">
-        <div th:if="${locality == contact.locality}">
-          <li th:text="${locality}"></li>
+            <ul th:each="locality : ${contactI.locality}">
+              <div th:if="${locality == contactI.locality}">
+                <li th:text="${locality}"></li>
 
-          <ul th:each="person :${contacts}">
-            <div th:if="${person.locality == locality}">
-              <li th:text="${person.name}"></li>
-              <li th:text="${person.phone}"></li>
-              <li th:text="${person.email}"></li>
-              --------------------------------
-            </div>
-          </ul>
+                <ul th:each="person :${contacts}">
+                  <div th:if="${person.locality == locality}">
+                    <li th:text="${person.name}"></li>
+                    <li th:text="${person.phone}"></li>
+                    <li th:text="${person.email}"></li>
+                    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+                  </div>
+                </ul>
+              </div>
+            </ul>
+
+        </ul>
         </div>
-      </ul>
-
     </ul>
+
 </ul>
 <a href="/api/v1/contacts">Go back</a>
 </body>

@@ -9,7 +9,7 @@ fun Contact?.toContactResponse(): ContactResponse {
         name = "${this?.name}",
         phone = this?.phone!!,
         email = this.email,
-        region = this.region,
+        region = this.region!!,
         locality = this.locality!!,
         photo = this.photo!!
     )

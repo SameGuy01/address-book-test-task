@@ -11,9 +11,9 @@ data class Contact(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ADDRESS_BOOK_SEQUENCE)
     val id:Long=1,
 
-    var name:String="",
+    var name:String?="",
 
-    var region:String="",
+    var region:String?="",
 
     var locality:String?=null,
 
@@ -23,7 +23,7 @@ data class Contact(
     var email:String="",
 
     @Column(table="contact_information")
-    var phone:String="",
+    var phone:String,
 
     var comment:String?=null) {
 

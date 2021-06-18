@@ -1,14 +1,12 @@
 package com.eraga.adressbooktesttask.service
 
-import com.eraga.adressbooktesttask.transform.toContactResponse
 import com.eraga.adressbooktesttask.dao.ContactDao
 import com.eraga.adressbooktesttask.domain.Contact
 import com.eraga.adressbooktesttask.dto.AddContactRequest
 import com.eraga.adressbooktesttask.dto.ContactResponse
 import com.eraga.adressbooktesttask.dto.UpdateContactRequest
 import com.eraga.adressbooktesttask.transform.AddContactTransform
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
+import com.eraga.adressbooktesttask.transform.toContactResponse
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -41,6 +39,27 @@ class ContactServiceImpl(private val contactDao: ContactDao,
 
     override fun deleteById(id: Long) {
         this.contactDao.deleteById(id)
+    }
+
+    override fun getReport(): MutableMap<String, MutableMap<String, MutableList<ContactResponse>>> {
+        val list:List<ContactResponse> = findAll()
+        val listMap: MutableMap<String, MutableMap<String, MutableList<ContactResponse>>> = LinkedHashMap()
+
+        for (elem in list) {
+            var localityMap: MutableMap<String, MutableList<ContactResponse>> = LinkedHashMap()
+            var contactResponseList: MutableList<ContactResponse> = ArrayList()
+
+            val region = elem.region
+            val locality = elem.locality
+
+            if (listMap.containsKey(region)) localityMap = listMap[region]!!
+                if (localityMap.containsKey(locality)) contactResponseList = localityMap[locality]!!
+
+            contactResponseList.add(elem)
+            localityMap[locality] = contactResponseList
+            listMap[region] = localityMap
+        }
+        return listMap
     }
 
     private fun findContactById(id:Long): Contact? = this.contactDao.findByIdOrNull(id)

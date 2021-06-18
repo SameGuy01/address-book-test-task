@@ -1,15 +1,11 @@
 package com.eraga.adressbooktesttask.resource
 
-import com.eraga.adressbooktesttask.domain.Contact
 import com.eraga.adressbooktesttask.dto.AddContactRequest
 import com.eraga.adressbooktesttask.dto.ContactResponse
 import com.eraga.adressbooktesttask.dto.UpdateContactRequest
 import com.eraga.adressbooktesttask.service.ContactServiceImpl
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
-import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import java.net.URI
 
@@ -18,73 +14,38 @@ import java.net.URI
 @RequestMapping("/api/v1/contacts")
 class ContactResourceImpl(private val contactService: ContactServiceImpl) : ContactResource {
 
-    @GetMapping("{id}")
-    fun showContactById(model:Model, @PathVariable id:Long):String{
-        val obj = findById(id).body
-        model.addAttribute("contact",obj)
-        return "edit"
-    }
-
-    override fun findById(id: Long): ResponseEntity<ContactResponse?> {
+    @GetMapping("/{id}")
+    override fun findById(@PathVariable id: Long): ResponseEntity<ContactResponse?> {
         val contactResponse: ContactResponse? = this.contactService.findById(id)
         return ResponseEntity.ok().body(contactResponse)
     }
 
     @GetMapping
-    fun showAll(model: Model):String{
-        val obj = findAll().body
-        model.addAttribute("contacts",obj)
-        return "main"
-    }
-
-    @GetMapping("/report")
-    fun showReport(model: Model):String{
-        val obj = findAll().body
-        model.addAttribute("contacts",obj)
-        return "contacts-report"
-    }
-
     override fun findAll(): ResponseEntity<List<ContactResponse>> {
         return ResponseEntity.ok(this.contactService.findAll())
     }
 
-    @PostMapping("/save")
-    fun saveContact(@ModelAttribute("contact") addContactRequest: AddContactRequest):String{
-        save(addContactRequest)
-        return "redirect:/api/v1/contacts"
-    }
-
-    @GetMapping("/save")
-    fun getSavePage(model: Model):String{
-        model.addAttribute("contact", Contact());
-        return "add-contact"
-    }
-
+    @PostMapping
     override fun save(@RequestBody addContactRequest: AddContactRequest): ResponseEntity<ContactResponse> {
         val contactResponse = this.contactService.save(addContactRequest)
         return ResponseEntity
-                .created(URI.create("/api/v1/contacts".plus("/${contactResponse.id}")))
-                .body(contactResponse)
+            .created(URI.create("/api/v1/contacts".plus("/${contactResponse.id}")))
+            .body(contactResponse)
     }
 
-    @PostMapping("/edit/{id}")
-    fun updateContact(@PathVariable id:Long,contactRequest: UpdateContactRequest):String{
-        update(id,contactRequest)
-        return "redirect:/api/v1/contacts"
+    @PutMapping("/{id}")
+    override fun update(@PathVariable id: Long, @RequestBody updatePersonRequest: UpdateContactRequest): ResponseEntity<ContactResponse> {
+        return ResponseEntity.ok(this.contactService.update(id, updatePersonRequest))
     }
 
-    override fun update(id:Long,updatePersonRequest: UpdateContactRequest): ResponseEntity<ContactResponse> {
-        return ResponseEntity.ok(this.contactService.update(id,updatePersonRequest))
-    }
-
-    @GetMapping("/delete/{id}")
-    fun deleteContactById(@PathVariable id: Long):String{
-        deleteById(id)
-        return "redirect:/api/v1/contacts"
-    }
-
-    override fun deleteById( id: Long) : ResponseEntity<ContactResponse>{
+    @DeleteMapping("/{id}")
+    override fun deleteById(@PathVariable id: Long): ResponseEntity<ContactResponse> {
         this.contactService.deleteById(id)
         return ResponseEntity.noContent().build()
+    }
+
+    @GetMapping("/report")
+    override fun getReport(): ResponseEntity<MutableMap<String, MutableMap<String, MutableList<ContactResponse>>>> {
+        return ResponseEntity.ok(this.contactService.getReport())
     }
 }
